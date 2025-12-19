@@ -77,3 +77,36 @@ Head-to-head history
 Odds from betting markets
 
 Player injuries / lineups
+
+
+Model correctly predicts this 77% of the time”
+
+This is recall (or sensitivity).
+
+It answers the question:
+
+Out of all the matches that were actually Home team doesn’t win (class 0), how many did the model correctly identify?
+
+Example:
+
+There are 100 matches where the home team didn’t win.
+
+Model predicts 77 of them correctly as not-win → recall = 77%
+
+Focus: how well the model captures all actual cases
+
+2️⃣ “When it says ‘Home team won’t win,’ it’s right 65% of the time”
+
+This is precision.
+
+It answers the question:
+
+Out of all matches the model predicted as Home team doesn’t win, how many were actually correct?
+
+Example:
+
+Model predicts “not-win” 120 times
+
+Only 78 of those were truly not-win → precision = 65%
+
+Focus: how reliable the model’s predictions are

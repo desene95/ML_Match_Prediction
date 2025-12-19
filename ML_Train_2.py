@@ -11,6 +11,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
+import joblib
 
 # Load the Excel file
 file_path = "/Users/damianesene/Downloads/all-euro-data-2025-2026.xlsx"
@@ -108,3 +109,6 @@ sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
             xticklabels=['Pred Not Home Win','Pred Home Win'],
             yticklabels=['Actual Not Home Win','Actual Home Win'])
 plt.show()
+
+# Save model
+joblib.dump(model, "football_model.pkl")
