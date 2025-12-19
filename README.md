@@ -63,8 +63,8 @@ Evaluating 32 games
 test_size=0.2 - use 20% of the data set for evaluation. The other 80% will be used to train. Increasing this value means the model has limited data to train/learn from
 
 # Py Files
-ML_Train_1.py - Only uses 160 games (All EPL games so far this season). No rolling average
-ML_Train_2.py - Over 3k games; Rolling averages implemented; biased toward class 0 (it predicts class 0 more confidently than class 1).
+- ML_Train_1.py - Only uses 160 games (All EPL games so far this season). No rolling average
+- ML_Train_2.py - Over 3k games; Rolling averages implemented; biased toward class 0 (it predicts class 0 more confidently than class 1).
 
 Next steps for improvement
 
