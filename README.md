@@ -110,3 +110,27 @@ Model predicts “not-win” 120 times
 Only 78 of those were truly not-win → precision = 65%
 
 Focus: how reliable the model’s predictions are
+
+
+Early predictions
+- New v CHE
+    Predicted outcome: Not home win
+    Probability Home win: 0.48
+    Probability Not home win: 0.52
+    Final Score New 2-2 Che
+    CORRECT!
+- EVE V ARS
+    Predicted outcome: Not home win
+    Probability Home win: 0.49
+    Probability Not home win: 0.51
+    CORRECT!
+- TOT V LFC
+    Predicted outcome: Not home win
+    Probability Home win: 0.46
+    Probability Not home win: 0.54
+    CORRECT!
+- MCI V WH
+    Predicted outcome: Not home win
+    Probability Home win: 0.46
+    Probability Not home win: 0.54
+    WRONG

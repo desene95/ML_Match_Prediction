@@ -42,30 +42,48 @@ def compute_last5_stats(team_name, match_date, is_home=True):
     return last5_points, last5_goals
 
 
-home_team = "Newcastle"
-away_team = "Chelsea"
+home_team = "Liverpool"
+away_team = "Wolves"
 match_date = pd.to_datetime("2025-12-14")
 
 home_points, home_goals = compute_last5_stats(home_team, match_date, is_home=True)
 away_points, away_goals = compute_last5_stats(away_team, match_date, is_home=False)
 
 
+
 # Load Trained Model
-model = joblib.load("football_model.pkl")
+model = joblib.load("football_model_v3.pkl")
+
+
+elo = joblib.load("elo_ratings.pkl")
+
+home_elo = elo.get(home_team, 1500)  # fallback if team missing
+away_elo = elo.get(away_team, 1500)
+elo_diff = home_elo - away_elo
 
 new_game = pd.DataFrame({
     'home_last5_points': [home_points],
     'away_last5_points': [away_points],
     'home_last5_goals_scored': [home_goals],
     'away_last5_goals_scored': [away_goals],
-    'home_win_prob': [2.75],  # fanduel odds
-    'draw_prob': [3.50],
-    'away_win_prob': [2.50]
+    'home_win_prob': [1/1.25],  # fanduel odds
+    'draw_prob': [1/7.00],
+    'away_win_prob': [1/10.00],
+    'home_elo': home_elo,
+    'away_elo': away_elo,
+    'elo_diff': elo_diff 
 })
 
 prediction = model.predict(new_game)
-proba = model.predict_proba(new_game)
+#proba = model.predict_proba(new_game)
 
-print("Predicted outcome:", "Home win" if prediction[0]==1 else "Not home win")
-print("Probability Home win:", round(proba[0][1], 2))
-print("Probability Not home win:", round(proba[0][0], 2))
+proba = model.predict_proba(new_game)[0]
+
+#labels = ['Away win', 'Draw', 'Home win']
+labels = {0: "Away win", 1: "Draw", 2: "Home win"}
+predicted_class = np.argmax(proba)
+
+print("Predicted outcome:", labels[predicted_class])
+print("Probabilities:")
+for label, p in zip(labels, proba):
+    print(f"  {label}: {round(p, 2)}")
