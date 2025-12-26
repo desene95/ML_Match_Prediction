@@ -185,3 +185,6 @@ metadata = {
 }
 with open("dist/metadata.json", "w") as f:
     json.dump(metadata, f, indent=2)
+
+snapshot_cols = ["Date", "HomeTeam", "AwayTeam", "FTR", "FTHG", "FTAG"]
+df[snapshot_cols].to_parquet("dist/matches_snapshot.parquet", index=False)
