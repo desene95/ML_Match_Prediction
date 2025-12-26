@@ -53,7 +53,7 @@ jobs:
 
       - name: Run single match prediction
         run: |
-          python predict/predict_single_match.py \
+          python predict/predict_game.py \
             --home-team "${{ inputs.home_team }}" \
             --away-team "${{ inputs.away_team }}" \
             --home-odds "${{ inputs.home_odds }}" \
