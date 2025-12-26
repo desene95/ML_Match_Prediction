@@ -13,20 +13,20 @@ def get_points(ftr: str, is_home: bool) -> int:
     return 1
 
 def last5_home_stats(df: pd.DataFrame, team: str, match_date: pd.Timestamp) -> tuple[float, float]:
-    m = df[(df["HomeTeam"] == team) & (df["Date"] < match_date)].sort_values("Date")
+    home_m = df[(df["HomeTeam"] == team) & (df["Date"] < match_date)].sort_values("Date")
     if len(m) == 0:
         return 0.0, 0.0
-    pts = m["FTR"].apply(lambda r: get_points(r, True)).to_numpy()
-    goals = m["FTHG"].to_numpy()
-    return float(np.mean(pts[-5:])), float(np.mean(goals[-5:]))
+    home_pts = home_m["FTR"].apply(lambda r: get_points(r, True)).to_numpy()
+    home_goals = home_m["FTHG"].to_numpy()
+    return float(np.mean(home_pts[-5:])), float(np.mean(home_goals[-5:]))
 
 def last5_away_stats(df: pd.DataFrame, team: str, match_date: pd.Timestamp) -> tuple[float, float]:
-    m = df[(df["AwayTeam"] == team) & (df["Date"] < match_date)].sort_values("Date")
-    if len(m) == 0:
+    away_m = df[(df["AwayTeam"] == team) & (df["Date"] < match_date)].sort_values("Date")
+    if len(away_m) == 0:
         return 0.0, 0.0
-    pts = m["FTR"].apply(lambda r: get_points(r, False)).to_numpy()
-    goals = m["FTAG"].to_numpy()
-    return float(np.mean(pts[-5:])), float(np.mean(goals[-5:]))
+    away_pts = away_m["FTR"].apply(lambda r: get_points(r, False)).to_numpy()
+    away_goals = away_m["FTAG"].to_numpy()
+    return float(np.mean(away_pts[-5:])), float(np.mean(away_goals[-5:]))
 
 def main():
     ap = argparse.ArgumentParser()
