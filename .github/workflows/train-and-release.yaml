@@ -32,7 +32,7 @@ jobs:
 
       - name: Train model
         run: |
-          python training/train.py
+          python training/ML_Train_2.py
 
       - name: Read semantic version
         id: ver
