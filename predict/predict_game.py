@@ -14,7 +14,7 @@ def get_points(ftr: str, is_home: bool) -> int:
 
 def last5_home_stats(df: pd.DataFrame, team: str, match_date: pd.Timestamp) -> tuple[float, float]:
     home_m = df[(df["HomeTeam"] == team) & (df["Date"] < match_date)].sort_values("Date")
-    if len(m) == 0:
+    if len(home_m) == 0:
         return 0.0, 0.0
     home_pts = home_m["FTR"].apply(lambda r: get_points(r, True)).to_numpy()
     home_goals = home_m["FTHG"].to_numpy()
