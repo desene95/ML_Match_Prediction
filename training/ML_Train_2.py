@@ -16,7 +16,7 @@ import os, json
 
 os.makedirs("dist", exist_ok=True)
 # Load the Excel file
-file_path = "all-euro-data-2025-2026.xlsx"
+file_path = "training/all-euro-data-2025-2026.xlsx"
 xls = pd.ExcelFile(file_path)
 sheet_names = xls.sheet_names
 df_list =[pd.read_excel(xls, sheet_name=sheet) for sheet in sheet_names]
