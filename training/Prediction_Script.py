@@ -57,7 +57,7 @@ away_points, away_goals = compute_last5_stats(away_team, match_date, is_home=Fal
 
 
 # Load Trained Model
-model_dir = download_latest_release()
+
 model = joblib.load(os.path.join(model_dir, "football_model.pkl"))
 elo = joblib.load(os.path.join(model_dir, "elo_ratings.pkl"))
 
