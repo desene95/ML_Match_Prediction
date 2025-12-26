@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - "training/**"
-      - ".github/workflows/**"
+      - ".github/workflows/train-and-release.yaml"
 
 permissions:
   contents: write  # allows tagging + releases
