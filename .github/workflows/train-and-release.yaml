@@ -68,3 +68,4 @@ jobs:
             dist/football_model.pkl
             dist/elo_ratings.pkl
             dist/metadata.json
+            dist/matches_snapshot.parquet
