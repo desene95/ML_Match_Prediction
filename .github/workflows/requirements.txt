@@ -3,3 +3,4 @@ joblib
 requests
 pyarrow
 scikit-learn
+pandas
