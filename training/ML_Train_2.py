@@ -12,9 +12,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 import joblib
+import os, json
 
+os.makedirs("dist", exist_ok=True)
 # Load the Excel file
-file_path = "/Users/damianesene/Downloads/all-euro-data-2025-2026.xlsx"
+file_path = "all-euro-data-2025-2026.xlsx"
 xls = pd.ExcelFile(file_path)
 sheet_names = xls.sheet_names
 df_list =[pd.read_excel(xls, sheet_name=sheet) for sheet in sheet_names]
@@ -172,7 +174,14 @@ print(classification_report(
 #plt.show()
 
 # Save model
-joblib.dump(model, "football_model_v3.pkl")
+joblib.dump(model, "dist/football_model.pkl")
 
 # Save ELO ratings
-joblib.dump(elo, "elo_ratings.pkl")
+joblib.dump(elo, "dist/elo_ratings.pkl")
+
+metadata = {
+    "model_type": "RandomForestClassifier",
+    "features": features,
+}
+with open("dist/metadata.json", "w") as f:
+    json.dump(metadata, f, indent=2)
