@@ -1,5 +1,7 @@
+pandas
 numpy
-joblib
-requests
-pyarrow
 scikit-learn
+joblib
+openpyxl
+pyarrow
+requests
