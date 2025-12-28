@@ -169,6 +169,25 @@ def main():
     features = meta.get("features", list(row.keys()))
     new_game = pd.DataFrame([row], columns=features).fillna(0)
 
+        # =========================
+    # DIAGNOSTIC: remove odds influence
+    # =========================
+    ng = new_game.copy()
+
+    if "home_win_prob" in ng.columns:
+        ng["home_win_prob"] = 0
+    if "draw_prob" in ng.columns:
+        ng["draw_prob"] = 0
+    if "away_win_prob" in ng.columns:
+        ng["away_win_prob"] = 0
+
+    proba_no_odds = model.predict_proba(ng)[0]
+
+    print(
+        "Without odds:",
+        dict(zip(model.classes_, proba_no_odds))
+    )
+
     # Predict
     proba = model.predict_proba(new_game)[0]
     best_class = np.argmax(proba)
@@ -209,10 +228,10 @@ def main():
         "prediction": pred_label,
         "probabilities": prob_map,
     }
-    print("Expected features:", meta["features"])
-    print("Provided columns:", new_game.columns.tolist())
-    missing = [f for f in meta["features"] if f not in new_game.columns]
-    print("Missing:", missing)
+    # print("Expected features:", meta["features"])
+    # print("Provided columns:", new_game.columns.tolist())
+    # missing = [f for f in meta["features"] if f not in new_game.columns]
+    # print("Missing:", missing)
 
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     with open(args.out, "w") as f:
