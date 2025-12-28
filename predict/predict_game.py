@@ -135,6 +135,9 @@ def main():
     draw_prob = 1.0 / draw_odds
     away_win_prob = 1.0 / away_odds
 
+    odds_edge_home = home_win_prob - away_win_prob
+    odds_draw_strength = draw_prob
+
     # Pull ELO dynamically (fallback 1500 if team missing)
     home_elo = float(elo.get(home_team, 1500.0))
     away_elo = float(elo.get(away_team, 1500.0))
@@ -151,9 +154,8 @@ def main():
         "away_last5_goals_scored": away_goals,
         "home_last5_goals_conceded": home_conceded,
         "away_last5_goals_conceded": away_conceded,
-        "home_win_prob": home_win_prob,
-        "draw_prob": draw_prob,
-        "away_win_prob": away_win_prob,
+        "odds_edge_home": odds_edge_home,
+        "odds_draw_strength": odds_draw_strength,   
         "home_elo": home_elo,
         "away_elo": away_elo,
         "elo_diff": elo_diff,
@@ -169,24 +171,24 @@ def main():
     features = meta.get("features", list(row.keys()))
     new_game = pd.DataFrame([row], columns=features).fillna(0)
 
-        # =========================
-    # DIAGNOSTIC: remove odds influence
-    # =========================
-    ng = new_game.copy()
+    #     # =========================
+    # # DIAGNOSTIC: remove odds influence
+    # # =========================
+    # ng = new_game.copy()
 
-    if "home_win_prob" in ng.columns:
-        ng["home_win_prob"] = 0
-    if "draw_prob" in ng.columns:
-        ng["draw_prob"] = 0
-    if "away_win_prob" in ng.columns:
-        ng["away_win_prob"] = 0
+    # if "home_win_prob" in ng.columns:
+    #     ng["home_win_prob"] = 0
+    # if "draw_prob" in ng.columns:
+    #     ng["draw_prob"] = 0
+    # if "away_win_prob" in ng.columns:
+    #     ng["away_win_prob"] = 0
 
-    proba_no_odds = model.predict_proba(ng)[0]
+    # proba_no_odds = model.predict_proba(ng)[0]
 
-    print(
-        "Without odds:",
-        dict(zip(model.classes_, proba_no_odds))
-    )
+    # print(
+    #     "Without odds:",
+    #     dict(zip(model.classes_, proba_no_odds))
+    # )
 
     # Predict
     proba = model.predict_proba(new_game)[0]

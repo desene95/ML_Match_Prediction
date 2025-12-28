@@ -146,6 +146,10 @@ df['home_win_prob'] = 1 / df['AvgH']
 df['draw_prob'] = 1 / df['AvgD']
 df['away_win_prob'] = 1 / df['AvgA']
 
+# Derived odds-shape features (reduces domination)
+df["odds_edge_home"] = df["home_win_prob"] - df["away_win_prob"]
+df["odds_draw_strength"] = df["draw_prob"]
+
 df['home_elo'] = home_elo_list
 df['away_elo'] = away_elo_list
 df['elo_diff'] = df['home_elo'] - df['away_elo']
@@ -213,7 +217,7 @@ df['pois_total_goals'] = df['lambda_home'] + df['lambda_away']
 # Select features for ML
 features = ['home_last5_points', 'away_last5_points', 
             'home_last5_goals_scored', 'away_last5_goals_scored',
-            'home_win_prob', 'draw_prob', 'away_win_prob','home_elo','away_elo','elo_diff',
+            'odds_edge_home','odds_edge_home','home_elo','away_elo','elo_diff',
             # ✅ Poisson features
     'pois_home_win_prob', 'pois_draw_prob', 'pois_away_win_prob','elo_abs_diff', 'pois_total_goals'
 ]
