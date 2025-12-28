@@ -209,6 +209,10 @@ def main():
         "prediction": pred_label,
         "probabilities": prob_map,
     }
+    print("Expected features:", meta["features"])
+    print("Provided columns:", new_game.columns.tolist())
+    missing = [f for f in meta["features"] if f not in new_game.columns]
+    print("Missing:", missing)
 
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     with open(args.out, "w") as f:
