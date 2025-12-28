@@ -5,6 +5,8 @@ import joblib
 import numpy as np
 import pandas as pd
 
+
+
 def get_points(ftr: str, is_home: bool) -> int:
     if ftr == "H":
         return 3 if is_home else 0
@@ -67,6 +69,30 @@ def poisson_match_probs(lh: float, la: float, max_goals: int = 6) -> tuple[float
 
     return p_home, p_draw, p_away
 
+def elo_asof(df: pd.DataFrame, asof_date: pd.Timestamp, K: float = 30, HOME_ADV: float = 65) -> dict:
+    # use only matches strictly before the match date
+    hist = df[df["Date"] < asof_date].sort_values("Date")
+
+    teams = pd.unique(hist[["HomeTeam", "AwayTeam"]].values.ravel())
+    elo = {t: 1500.0 for t in teams}
+
+    for _, r in hist.iterrows():
+        home, away = r["HomeTeam"], r["AwayTeam"]
+        home_elo, away_elo = elo.get(home, 1500.0), elo.get(away, 1500.0)
+
+        expected_home = 1 / (1 + 10 ** (((away_elo) - (home_elo + HOME_ADV)) / 400))
+
+        if r["FTR"] == "H":
+            score_home = 1.0
+        elif r["FTR"] == "D":
+            score_home = 0.5
+        else:
+            score_home = 0.0
+
+        elo[home] = home_elo + K * (score_home - expected_home)
+        elo[away] = away_elo + K * ((1 - score_home) - (1 - expected_home))
+
+    return elo
 
 def main():
     ap = argparse.ArgumentParser()
@@ -139,8 +165,9 @@ def main():
     odds_draw_strength = draw_prob
 
     # Pull ELO dynamically (fallback 1500 if team missing)
-    home_elo = float(elo.get(home_team, 1500.0))
-    away_elo = float(elo.get(away_team, 1500.0))
+    elo_now = elo_asof(df, match_date, K=30, HOME_ADV=65)
+    home_elo = float(elo_now.get(home_team, 1500.0))
+    away_elo = float(elo_now.get(away_team, 1500.0))
     elo_diff = home_elo - away_elo
 
     elo_abs_diff = abs(elo_diff)
