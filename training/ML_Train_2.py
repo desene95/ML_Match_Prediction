@@ -217,7 +217,7 @@ df['pois_total_goals'] = df['lambda_home'] + df['lambda_away']
 # Select features for ML
 features = ['home_last5_points', 'away_last5_points', 
             'home_last5_goals_scored', 'away_last5_goals_scored',
-            'odds_edge_home','odds_draw_strength','home_elo','away_elo','elo_diff',
+            'home_elo','away_elo','elo_diff',
             # ✅ Poisson features
     'pois_home_win_prob', 'pois_draw_prob', 'pois_away_win_prob','elo_abs_diff', 'pois_total_goals'
 ]
