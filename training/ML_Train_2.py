@@ -33,10 +33,10 @@ ftr_map = {'A': 0, 'D': 1, 'H': 2}
 df['result_3way'] = df['FTR'].map(ftr_map)
 
 # Initialize rolling features
-df['home_last5_points'] = 0
-df['away_last5_points'] = 0
-df['home_last5_goals_scored'] = 0
-df['away_last5_goals_scored'] = 0
+df['home_last5_points'] = 0.0
+df['away_last5_points'] = 0.0
+df['home_last5_goals_scored'] = 0.0
+df['away_last5_goals_scored'] = 0.0
 df['home_last5_goals_conceded'] = 0.0 # These are for Poission distribution calculations
 df['away_last5_goals_conceded'] = 0.0
 
