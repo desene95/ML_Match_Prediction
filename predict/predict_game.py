@@ -231,6 +231,21 @@ def main():
     pred_label = label_map[pred_class]
     confidence_label = label_map[int(classes[best_class])]
 
+    # -----------------------------
+# Draw-aware post processing
+# -----------------------------
+
+    p_away = prob_map["Away win"]
+    p_draw = prob_map["Draw"]
+    p_home = prob_map["Home win"]
+
+    # Override with Draw when the game is tight + low scoring
+    if (p_draw >= 0.33) and (abs(elo_diff) < 35) and (pois_total_goals < 2.6):
+        final_label = "Draw"
+    else:
+        final_label = pred_label
+
+
     out = {
         "home_team": home_team,
         "away_team": away_team,
@@ -254,7 +269,7 @@ def main():
             "pois_draw_prob": float(pois_draw),
             "pois_away_win_prob": float(pois_away)
         },
-        "prediction": pred_label,
+        "prediction": final_label,
         "probabilities": prob_map,
     }
     # print("Expected features:", meta["features"])
