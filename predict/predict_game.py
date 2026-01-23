@@ -267,7 +267,8 @@ def main():
             "lambda_away": lambda_away,
             "pois_home_win_prob": float(pois_home),
             "pois_draw_prob": float(pois_draw),
-            "pois_away_win_prob": float(pois_away)
+            "pois_away_win_prob": float(pois_away),
+            "pois_total_goals": float(lambda_home + lambda_away)
         },
         "prediction": final_label,
         "probabilities": prob_map,
